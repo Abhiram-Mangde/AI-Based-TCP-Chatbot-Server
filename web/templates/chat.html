@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AgentChat Web UI</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #e9ecef; }
+    .container { max-width: 700px; margin: 40px auto; background: #fff; padding: 32px 28px 28px 28px; border-radius: 16px; box-shadow: 0 4px 24px #bbb; }
+    h2 { text-align: center; color: #333; margin-bottom: 24px; font-size: 2rem; letter-spacing: 1px; }
+    .prompt-bar { margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .prompt-bar button { background: #f8f9fa; color: #333; border: 1px solid #007bff; border-radius: 20px; padding: 10px 22px; font-size: 16px; cursor: pointer; transition: background 0.2s; margin-bottom: 4px; }
+    .prompt-bar button:hover { background: #007bff; color: #fff; }
+    .chat-box { height: 340px; overflow-y: auto; border: 1px solid #ddd; padding: 18px; margin-bottom: 18px; background: #f6f8fa; border-radius: 10px; font-size: 16px; }
+    .msg-client { color: #007bff; margin-bottom: 8px; font-weight: 500; }
+    .msg-agent { color: #28a745; margin-bottom: 8px; font-weight: 500; }
+    .input-group { display: flex; gap: 10px; margin-bottom: 8px; }
+    input[type=text] { flex: 1; padding: 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 17px; }
+    button.send-btn { padding: 14px 32px; border: none; background: #007bff; color: #fff; border-radius: 8px; font-size: 17px; cursor: pointer; }
+    button.send-btn:hover { background: #0056b3; }
+    .open-client-btn { background: #28a745; margin-top: 16px; float: right; border-radius: 8px; padding: 12px 26px; font-size: 16px; }
+    .open-client-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>AgentChat Web UI</h2>
+        <div class="prompt-bar" id="promptBar">
+            <!-- Prompt buttons will be loaded here -->
+        </div>
+        <div class="chat-box" id="chatBox">
+            <!-- Chat messages will appear here -->
+        </div>
+        <div class="input-group">
+            <input type="text" id="userInput" placeholder="Type your message..." autofocus />
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+        <button class="open-client-btn" onclick="openNewClient()">Open New Client Window</button>
+    </div>
+    <script>
+        // Dynamically load prompt buttons from qa_data.json
+        fetch('/static/qa_data.json')
+            .then(res => res.json())
+            .then(data => {
+                let promptBar = document.getElementById('promptBar');
+                Object.values(data).forEach(item => {
+                    let btn = document.createElement('button');
+                    btn.textContent = item.prompt;
+                    btn.onclick = function() {
+                        setPrompt(item.prompt);
+                    };
+                    promptBar.appendChild(btn);
+                });
+            });
+
+        function setPrompt(text) {
+            document.getElementById('userInput').value = text;
+            document.getElementById('userInput').focus();
+        }
+
+        function openNewClient() {
+            window.open(window.location.href, '_blank', 'width=650,height=600');
+        }
+
+        let chatBox = document.getElementById('chatBox');
+        let greetingShown = false;
+        function appendMessage(sender, text) {
+            let msgDiv = document.createElement('div');
+            msgDiv.className = sender === 'client' ? 'msg-client' : 'msg-agent';
+            msgDiv.textContent = (sender === 'client' ? 'You: ' : 'Agent: ') + text;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        function sendMessage() {
+            let input = document.getElementById('userInput');
+            let message = input.value.trim();
+            if (!message) return;
+            appendMessage('client', message);
+            fetch('/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!greetingShown) {
+                    appendMessage('agent', data.greeting);
+                    greetingShown = true;
+                }
+                appendMessage('agent', data.response);
+            });
+            input.value = '';
+            input.focus();
+        }
+        document.getElementById('userInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+{
+    "reverse string": {
+        "prompt": "How do I reverse a string in Python?",
+        "answer": "To reverse a string in Python: s = 'hello'; reversed_s = s[::-1]  # Output: 'olleh'"
+    },
+    "factorial": {
+        "prompt": "How to calculate factorial in Python?",
+        "answer": "Factorial in Python: def factorial(n): return 1 if n==0 else n*factorial(n-1)"
+    },
+    "fibonacci": {
+        "prompt": "How to generate Fibonacci sequence in Python?",
+        "answer": "Fibonacci in Python: def fib(n): a,b=[],0,1; [a.append(b) or (b:=a[-1]+a[-2] if len(a)>1 else 1) for _ in range(n)]; return a"
+    },
+    "palindrome": {
+        "prompt": "How to check palindrome in Python?",
+        "answer": "Palindrome check: s = 'level'; is_palindrome = s == s[::-1]"
+    },
+    "sort list": {
+        "prompt": "How to sort a list in Python?",
+        "answer": "Sort a list: my_list.sort() or sorted(my_list)"
+    },
+    "read csv": {
+        "prompt": "How to read a CSV file in Python?",
+        "answer": "Read CSV: import csv; with open('file.csv') as f: reader = csv.reader(f); for row in reader: print(row)"
+    },
+    "write csv": {
+        "prompt": "How to write a CSV file in Python?",
+        "answer": "Write CSV: import csv; with open('file.csv', 'w', newline='') as f: writer = csv.writer(f); writer.writerow(['a','b'])"
+    },
+    "json": {
+        "prompt": "How to work with JSON in Python?",
+        "answer": "JSON: import json; data = json.loads(json_str); json_str = json.dumps(data)"
+    },
+    "print": {
+        "prompt": "How do I print a line in Python?",
+        "answer": "Use print('your text') to print a line in Python. Example: print('Hello, world!')"
+    },
+    "for loop": {
+        "prompt": "How to write a for loop in Python?",
+        "answer": "A Python for loop: for i in range(5): print(i)"
+    },
+    "if statement": {
+        "prompt": "How to write an if statement in Python?",
+        "answer": "Python if statement: if x > 0: print('Positive')"
+    },
+    "import": {
+        "prompt": "How to import a module in Python?",
+        "answer": "Use 'import module_name' to import modules in Python."
+    },
+    "read file": {
+        "prompt": "How to read a file in Python?",
+        "answer": "To read a file: with open('file.txt') as f: data = f.read()"
+    },
+    "write file": {
+        "prompt": "How to write to a file in Python?",
+        "answer": "To write a file: with open('file.txt', 'w') as f: f.write('text')"
+    },
+    "exception": {
+        "prompt": "How to handle exceptions in Python?",
+        "answer": "Python exception: try: ... except Exception as e: print(e)"
+    },
+    "lambda": {
+        "prompt": "What is a lambda function in Python?",
+        "answer": "A lambda function: lambda x: x * 2"
+    },
+    "list comprehension": {
+        "prompt": "How to use list comprehension in Python?",
+        "answer": "List comprehension: [x for x in range(5)]"
+    },
+    "reverse list": {
+        "prompt": "How to reverse a list in Python?",
+        "answer": "Reverse a list: my_list.reverse() or my_list[::-1]"
+    },
+    "random number": {
+        "prompt": "How to generate a random number in Python?",
+        "answer": "Random number: import random; random.randint(1, 10)"
+    },
+    "datetime": {
+        "prompt": "How to get current date and time in Python?",
+        "answer": "Datetime: import datetime; now = datetime.datetime.now()"
+    },
+    "install package": {
+        "prompt": "How to install a package in Python?",
+        "answer": "Use pip to install packages: pip install package_name"
+    },
+    "virtualenv": {
+        "prompt": "How to create a virtual environment in Python?",
+        "answer": "Create a virtual environment: python3 -m venv env"
+    },
+    "requirements.txt": {
+        "prompt": "What is requirements.txt in Python?",
+        "answer": "requirements.txt lists Python packages for pip install -r requirements.txt"
+    }
+}
